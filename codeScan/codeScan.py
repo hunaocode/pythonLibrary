@@ -1,5 +1,9 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import os
 import re
+
 # 遍历指定目录，显示目录下的所有文件名
 from getImageArrayTool import GetImageTool
 
@@ -29,15 +33,27 @@ def eachFile(filepath,imageArray):
 def readFile(filename,imageArray):
     f = open(filename, 'r')
     for line in f.readlines():
+        find = False
         for str in imageArray:
-            p1 = r'%s' % str
-            pattern1 = re.compile(p1)  # 同样是编译
-            matcher1 = re.search(pattern1, line)  # 同样是查询
-            if matcher1:
-                imageArray.remove(str)
+            if str in line:
+                find = True
                 print("在%s中找到了%s" % (filename,str))
+                imageArray.remove(str)
+                break
             else:
                 pass
+            # p1 = r'%s' % str
+            # pattern1 = re.compile(p1)
+            # matcher1 = re.search(pattern1, line)  # 查询
+            # if matcher1:
+            #     find = True
+            #     print("在%s中找到了%s" % (filename,str))
+            #     imageArray.remove(str)
+            #     break
+            # else:
+            #     pass
+        if find:
+            break
         #print(line.strip())
     f.close()
 # 输入多行文字，写入指定文件并保存到指定文件夹
@@ -55,13 +71,21 @@ def writeFile(filename):
 
 if __name__ == '__main__':
 
-    fileName = '/Users/huguobin/Desktop/codeScan'
+    fileName = '/Users/huguobin/Desktop/JD4iPhone6'
     imageTool = GetImageTool()
     imageArray = imageTool.getImageArrayWithFilePath(fileName)
-    for key,value in imageTool.imageDic.items():
-        print(key,value)
-    imageArray2 = eachFile(fileName,imageArray)
-    for str in imageArray2:
-        path = imageTool.imageDic.get(str)
-        print("删除%s路径下的%s图片" % (path,str))
-        os.remove(path)
+    imageSet = set(imageArray)
+    print("在工程中共扫描到到%d张图片" % len(imageSet))
+    # for str in imageArray:
+    #     print(str)
+    # for key,value in imageTool.imageDic.items():
+    #     print(key,value)
+    imageArray2 = eachFile(fileName,imageSet)
+    if len(imageArray2):
+        for str in imageArray2:
+            path = imageTool.imageDic.get(str)
+            print("未使用%s路径下的%s图片" % (path, str))
+            # print("删除%s路径下的%s图片" % (path,str))
+            # os.remove(path)
+    else:
+        print("未发现没有使用的图片")

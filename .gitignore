@@ -1,0 +1,6 @@
+misc.xml
+modules.xml
+*.iml
+vcs.xml
+workspace.xml
+*.pyc

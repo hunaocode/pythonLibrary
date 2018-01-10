@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 
 class GetImageTool(object):
@@ -6,7 +7,7 @@ class GetImageTool(object):
         self.imagearray = [];
         self.imageDic = {};
 
-    # 遍历指定目录，显示目录下的所有文件名 # 遍历指定目录，显示目录下的所有文件名
+    # 遍历指定目录，显示目录下的所有文件名
     def eachFile(self,filepath):
         if os.path.isdir(filepath):
             # print("it's a directory")
@@ -26,6 +27,7 @@ class GetImageTool(object):
                 self.imageDic[lastPathName]=filepath;
         else:
             print("it's a special file (socket, FIFO, device file)")
+            print(filepath)
 
 
     def getImageArrayWithFilePath(self,path):
